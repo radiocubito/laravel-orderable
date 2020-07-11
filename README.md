@@ -7,10 +7,6 @@
 
 A trait to ordering database records.
 
-```php
-
-```
-
 ## Installation
 
 You can install the package via composer:
