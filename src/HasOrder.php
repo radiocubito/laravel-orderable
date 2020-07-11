@@ -2,45 +2,58 @@
 
 namespace Radiocubito\Orderable;
 
-class HasOrder
+trait HasOrder
 {
+    public static function bootHasOrder()
+    {
+        static::creating(function ($model) {
+            if (is_null($model->order_column)) {
+                $model->order_column = $model->orderLast();
+            }
+        });
+    }
+
     public function orderFirst()
     {
-        return self::orderBy('order', 'asc')
-                ->first()
-                ->order - 1;
+        if ($fistItem = self::orderBy('order_column', 'asc')->first()) {
+            return $fistItem->order_column - 1;
+        }
+
+        return 1;
     }
 
     public function orderLast()
     {
-        return self::orderBy('order', 'desc')
-                ->first()
-                ->order + 1;
+        if ($lastItem = self::orderBy('order_column', 'desc')->first()) {
+            return $lastItem->order_column + 1;
+        }
+
+        return 1;
     }
 
     public function orderAfter()
     {
-        $adjacent = self::where('order', '>', $this->order)
-            ->orderBy('order', 'asc')
+        $adjacent = self::where('order_column', '>', $this->order_column)
+            ->orderBy('order_column', 'asc')
             ->first();
 
-        if (!$adjacent) {
-            return $this->last();
+        if (! $adjacent) {
+            return $this->orderLast();
         }
 
-        return ($this->order + $adjacent->order) / 2;
+        return ($this->order_column + $adjacent->order_column) / 2;
     }
 
     public function orderBefore()
     {
-        $adjacent = self::where('order', '<', $this->order)
-            ->orderBy('order', 'desc')
+        $adjacent = self::where('order_column', '<', $this->order_column)
+            ->orderBy('order_column', 'desc')
             ->first();
 
-        if (!$adjacent) {
-            return $this->first();
+        if (! $adjacent) {
+            return $this->orderFirst();
         }
 
-        return ($this->order + $adjacent->order) / 2;
+        return ($this->order_column + $adjacent->order_column) / 2;
     }
 }

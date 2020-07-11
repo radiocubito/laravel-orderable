@@ -40,7 +40,7 @@ class TestCase extends Orchestra
         $this->app['db']->connection()->getSchemaBuilder()->create('dummies', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('order_column');
+            $table->float('order_column', 131072, 16383)->index();
         });
 
         collect(range(1, 20))->each(function (int $i) {
