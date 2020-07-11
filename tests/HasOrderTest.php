@@ -4,7 +4,7 @@ namespace Radiocubito\Orderable\Tests;
 
 use Radiocubito\Orderable\Tests\Fixtures\Dummy;
 
-class ExampleTest extends TestCase
+class HasOrderTest extends TestCase
 {
     /** @test */
     public function it_sets_the_order_column_on_creation()

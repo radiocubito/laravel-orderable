@@ -44,16 +44,6 @@
     "config": {
         "sort-packages": true
     },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Radiocubito\\Orderable\\OrderableServiceProvider"
-            ],
-            "aliases": {
-                "Orderable": "Radiocubito\\Orderable\\OrderableFacade"
-            }
-        }
-    },
     "minimum-stability": "dev",
     "prefer-stable": true
 }

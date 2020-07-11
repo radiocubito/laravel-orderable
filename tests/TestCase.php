@@ -13,16 +13,7 @@ class TestCase extends Orchestra
     {
         parent::setUp();
 
-        $this->withFactories(__DIR__.'/database/factories');
-
         $this->setUpDatabase();
-    }
-
-    protected function getPackageProviders($app)
-    {
-        return [
-            OrderableServiceProvider::class,
-        ];
     }
 
     public function getEnvironmentSetUp($app)
@@ -46,7 +37,6 @@ class TestCase extends Orchestra
         collect(range(1, 20))->each(function (int $i) {
             Dummy::create([
                 'name' => $i,
-                // 'order_column' => $i,
             ]);
         });
     }
