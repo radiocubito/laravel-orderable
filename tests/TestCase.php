@@ -4,7 +4,6 @@ namespace Radiocubito\Orderable\Tests;
 
 use Illuminate\Database\Schema\Blueprint;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Radiocubito\Orderable\OrderableServiceProvider;
 use Radiocubito\Orderable\Tests\Fixtures\Dummy;
 
 class TestCase extends Orchestra

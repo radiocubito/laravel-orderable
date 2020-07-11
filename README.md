@@ -5,7 +5,11 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/radiocubito/laravel-orderable.svg?style=flat-square)](https://packagist.org/packages/radiocubito/laravel-orderable)
 
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+A trait to ordering database records.
+
+```php
+
+```
 
 ## Installation
 
@@ -15,30 +19,37 @@ You can install the package via composer:
 composer require radiocubito/laravel-orderable
 ```
 
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --provider="Radiocubito\Orderable\OrderableServiceProvider" --tag="migrations"
-php artisan migrate
-```
-
-You can publish the config file with:
-```bash
-php artisan vendor:publish --provider="Radiocubito\Orderable\OrderableServiceProvider" --tag="config"
-```
-
-This is the contents of the published config file:
-
-```php
-return [
-];
-```
-
 ## Usage
 
+1. Add float column `order_column` to your model migration `$table->float('order_column', 131072, 16383)->index()`.
+2. Use the trait `Radiocubito\Orderable\HasOrder` in your model.
+
+Assuming your database for MyModel is empty:
+
 ``` php
-$orderable = new Radiocubito\Orderable();
-echo $orderable->echoPhrase('Hello, Radiocubito!');
+$modelA = new MyModel();
+$modelA->save(); // order_column for this record will be set to 1
+
+$modelB = new MyModel();
+$modelB->save(); // order_column for this record will be set to 2
+
+$modelC = new MyModel();
+$modelC->save(); // order_column for this record will be set to 3
+
+$modelD = new MyModel();
+$modelD->save(); // order_column for this record will be set to 4
+
+$modelD->order_column = $modelD->orderFirst();
+$modelD->save(); // order_column for this record will be set to 0
+
+$modelA->order_column = $modelA->orderLast();
+$modelA->save(); // order_column for this record will be set to 4
+
+$modelD->order_column = $modelB->orderAfter();
+$modelD->save(); // order_column for this record will be set to 2.5
+
+$modelA->order_column = $modelC->orderBefore();
+$modelA->save(); // order_column for this record will be set to 2.75
 ```
 
 ## Testing
